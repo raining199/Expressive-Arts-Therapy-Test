@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>艺术疗愈方式倾向测试 · 专业版</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f7f3f0 0%, #ede6df 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        .app-container {
+            max-width: 720px;
+            width: 100%;
+            background-color: #fffef7;
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .content-pane {
+            padding: 2rem 2rem 2rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            background: linear-gradient(135deg, #b47c68, #7c5e4f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subhead {
+            color: #7c6e64;
+            border-left: 3px solid #d9b8a4;
+            padding-left: 1rem;
+            margin: 1rem 0 1.8rem 0;
+            font-weight: 400;
+            font-size: 0.95rem;
+        }
+
+        .btn {
+            border: none;
+            background: #e2d5cc;
+            padding: 0.8rem 1.8rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            color: #3e2c23;
+        }
+
+        .btn-primary {
+            background: #b47c68;
+            color: white;
+            box-shadow: 0 4px 8px rgba(180, 124, 104, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: #9c634f;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #d9b8a4;
+            color: #7c5e4f;
+        }
+
+        .btn-outline:hover {
+            background: #f5ede7;
+        }
+
+        .progress-area {
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: #eee3db;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #b47c68;
+            border-radius: 10px;
+            transition: width 0.25s ease;
+        }
+
+        .question-counter {
+            font-size: 0.8rem;
+            color: #a58e7e;
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        .question-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            line-height: 1.4;
+            color: #2f241e;
+            margin-bottom: 2rem;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .option-card {
+            background: #fefaf7;
+            border: 1.5px solid #efded4;
+            border-radius: 1.5rem;
+            padding: 1rem 1.5rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .option-card:hover {
+            background: #fff5ef;
+            border-color: #d9b8a4;
+            transform: translateX(5px);
+        }
+
+        .option-marker {
+            width: 32px;
+            height: 32px;
+            border-radius: 40px;
+            border: 2px solid #d9b8a4;
+            background: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+            color: #b47c68;
+        }
+
+        .selected-option .option-marker {
+            background: #b47c68;
+            border-color: #b47c68;
+            color: white;
+        }
+
+        .option-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #2f241e;
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+
+        .result-type {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .result-badge {
+            background: #efe2d9;
+            display: inline-block;
+            padding: 0.4rem 1.2rem;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #b47c68;
+            letter-spacing: 1px;
+        }
+
+        .result-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-top: 0.8rem;
+            color: #2f241e;
+        }
+
+        .result-desc {
+            background: #faf5f0;
+            padding: 1.5rem;
+            border-radius: 1.8rem;
+            margin: 1.5rem 0;
+            line-height: 1.5;
+            color: #4d3b30;
+        }
+
+        .healing-icon {
+            font-size: 3.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .welcome-icon {
+            font-size: 3.2rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .feature-list {
+            background: #faf5f0;
+            border-radius: 1.5rem;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #bcaba0;
+            padding: 1rem 2rem 1.5rem;
+            border-top: 1px solid #f0e3db;
+        }
+
+        .integrated-note {
+            margin-top: 1.2rem;
+            background: #ede0d6;
+            border-radius: 1.2rem;
+            padding: 1rem;
+            font-size: 0.9rem;
+            border-left: 4px solid #b47c68;
+        }
+
+        @media (max-width: 550px) {
+            .content-pane { padding: 1.5rem; }
+            .question-text { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container" id="appRoot">
+    <div id="viewContainer"></div>
+    <footer>🎨 基于创造性艺术治疗体系 · 专业倾向评估 · 结果包含整合建议</footer>
+</div>
+
+<script>
+    // ---------- 倾向常量 ----------
+    const TYPE_VISUAL = "视觉艺术治疗";
+    const TYPE_MUSIC = "音乐治疗";
+    const TYPE_DANCE = "舞蹈/运动治疗";
+    const TYPE_DRAMA = "戏剧治疗";
+
+    // ---------- 丰富的疗愈方法说明（基于用户提供的文档）----------
+    const DETAILED_MAP = {
+        [TYPE_VISUAL]: {
+            title: "视觉艺术治疗倾向",
+            icon: "🎨🖌️",
+            coreIdea: "艺术即治疗：创作过程本身具有疗愈性。通过二维（绘画、拼贴）或三维（黏土、雕塑）媒介，将潜意识意象象征化，宣泄情绪并提升自我洞察。",
+            recommend: "绘画、黏土、拼贴、VTS (视觉思维策略) 等疗愈方式",
+            methods: "自由创作、'房子-树-人'绘画分析、曼陀罗绘画、博物馆艺术项目、编织/手工疗愈",
+           治愈机制: "创作中情绪得到整合，治疗师创设安全环境，不深度解读作品，让意象自然流动。"
+        },
+        [TYPE_MUSIC]: {
+            title: "音乐治疗倾向",
+            icon: "🎶🎵",
+            coreIdea: "运用和声、节奏、旋律等音乐元素，通过聆听、演奏、即兴或创作歌词表达内心，改善情绪、认知与社交功能。",
+            recommend: "聆听、即兴演奏、歌曲写作、韵律活动",
+            methods: "音乐引导想象(GIM)、节奏训练、五行五音疗法、鼓圈、歌词分析",
+           治愈机制: "音乐直接作用于边缘系统，调节情绪，促进非语言沟通与身心整合。"
+        },
+        [TYPE_DANCE]: {
+            title: "舞蹈/运动治疗倾向",
+            icon: "💃🕺",
+            coreIdea: "以身体为核心媒介，通过有节奏性和创造性的动作探索自我，将内在情绪具象化，释放无法言说的思绪。",
+            recommend: "身体动作探索、节奏练习、根基练习、镜像动作",
+            methods: "镜像动作、Chace 方法、真实动作、身体扫描、拉班动作分析",
+           治愈机制: "动作即沟通，通过觉察身体感受整合身心，提升身体意象与情绪调节能力。"
+        },
+        [TYPE_DRAMA]: {
+            title: "戏剧治疗倾向",
+            icon: "🎭📖",
+            coreIdea: "运用角色扮演、说故事、即兴创作、心理剧等戏剧过程，在安全空间中投射内在经验，转化生命故事。",
+            recommend: "角色扮演、心理剧、即兴戏剧、玩偶剧场",
+            methods: "角色法、空椅技术、发展转化法、一人一故事剧场、叙事戏剧",
+           治愈机制: "通过距离化与角色替代，释放压抑情感，整合不同自我，获得新视角。"
+        }
+    };
+
+    const INTEGRATED_DETAIL = {
+        title: "整合/多模态取向",
+        icon: "✨🌈",
+        coreIdea: "整合/多模态艺术治疗：在同一过程中灵活结合视觉、音乐、舞蹈、戏剧等形式，调动不同脑区协同工作，打通多种表达渠道，实现深层疗愈。",
+        recommend: "多模态表达性艺术治疗、创造性艺术治疗整合模式",
+        methods: "结合绘画、即兴音乐、身体动作和角色扮演，跟随当下状态自然切换媒介；表达性艺术治疗环(Expressive Therapies Continuum)",
+       治愈机制: "不同艺术形式激活不同神经通路，来访者可自由选择最契合当下的表达方式，达到整合性疗愈。"
+    };
+
+    // ---------- 保留原24题（根据文档2：完全依照选项对应倾向）----------
+    const QUESTIONS = [
+        { text: "心里有一团说不清的感受时，你通常最先做什么？", options: [
+            { text: "站起来走走，或者摇摇头、转转肩膀，身体想动一动", type: TYPE_DANCE },
+            { text: "随手找张纸乱涂乱画，或者捏点什么东西", type: TYPE_VISUAL },
+            { text: "脑子里开始有个声音在自言自语，像内心戏那样", type: TYPE_DRAMA },
+            { text: "不自觉地哼一段随意的调子，或手指轻轻敲打节奏", type: TYPE_MUSIC }
+        ] },
+        { text: "如果要把今天印象最深的一个瞬间保存下来，你会？", options: [
+            { text: "在心里给它配一段旁白，像电影剪辑那样", type: TYPE_DRAMA },
+            { text: "拍一张构图用心的照片，或者画两笔记录", type: TYPE_VISUAL },
+            { text: "单曲循环一首和此刻心情贴切的歌", type: TYPE_MUSIC },
+            { text: "记住当时身体的感觉，比如风吹在脸上的温度", type: TYPE_DANCE }
+        ] },
+        { text: "一个人待着的时候，哪种状态让你觉得最舒服？", options: [
+            { text: "刷到某个片段时，不自觉代入想象'如果是我会怎样'", type: TYPE_DRAMA },
+            { text: "整理房间、搭配衣服或摆弄小物件，看着顺眼就开心", type: TYPE_VISUAL },
+            { text: "歪在沙发上伸懒腰，找到最放松的身体姿势", type: TYPE_DANCE },
+            { text: "放点背景音乐，有声音流动的空间才不沉闷", type: TYPE_MUSIC }
+        ] },
+        { text: "你最希望亲近的人用什么方式回应你的低落情绪？", options: [
+            { text: "用温和的语气和节奏跟我说说话，让我听到被理解的声音", type: TYPE_MUSIC },
+            { text: "什么也不说，陪在身边，或者给我一个可以看的温暖画面", type: TYPE_VISUAL },
+            { text: "用'我懂，就像......'的方式告诉我类似处境的故事", type: TYPE_DRAMA },
+            { text: "给我一个拥抱或拍拍我的背，让身体感到被安抚", type: TYPE_DANCE }
+        ] },
+        { text: "遇到开心事，你分享快乐的第一反应更像？", options: [
+            { text: "手舞足蹈，身体比嘴先做出反应", type: TYPE_DANCE },
+            { text: "发一条配图讲究的动态，画面本身就是心情", type: TYPE_VISUAL },
+            { text: "把这件事有声有色地讲成一个段子", type: TYPE_DRAMA },
+            { text: "立刻分享一首歌到朋友圈或者直接唱两句", type: TYPE_MUSIC }
+        ] },
+        { text: "焦躁不安想让自己情绪稳定下来时，你更容易被什么安抚？", options: [
+            { text: "打开一个循环播放的纯音乐或白噪音，音量调得很低", type: TYPE_MUSIC },
+            { text: "抬头看一会儿窗外的天空、树影，或者翻翻相册里安静的图片", type: TYPE_VISUAL },
+            { text: "想象自己正处在一个绝对安全的小空间里，比如童年被窝", type: TYPE_DRAMA },
+            { text: "慢慢做几次深呼吸，下意识揉揉脖子或搓搓手", type: TYPE_DANCE }
+        ] },
+        { text: "看一场演出或展览，哪种瞬间最让你起鸡皮疙瘩？", options: [
+            { text: "演员一句直击内心、仿佛在对我说的话", type: TYPE_DRAMA },
+            { text: "一道光线打下来的构图，或者一组冲击力很强的配色", type: TYPE_VISUAL },
+            { text: "一段旋律突然转调，或者安静到只剩呼吸声的时刻", type: TYPE_MUSIC },
+            { text: "舞者一个非常有力或非常缓慢的动作", type: TYPE_DANCE }
+        ] },
+        { text: "在家需要一个'缓一缓'的角落，你更会怎么布置它？", options: [
+            { text: "留出一块可以躺平、伸展、随意打滚的空地", type: TYPE_DANCE },
+            { text: "放一个小音箱，存好自己一听就放松的歌单", type: TYPE_MUSIC },
+            { text: "堆着靠枕和毯子，像一个可以把自己包起来的小窝", type: TYPE_DRAMA },
+            { text: "挂上喜欢的画或照片，放几个看着就舒服的摆件", type: TYPE_VISUAL }
+        ] },
+        { text: "躺在床上睡不着时，你更可能无意识地做哪件事？", options: [
+            { text: "侧耳听窗外的声音，或者打开一个听过很多遍的音频", type: TYPE_MUSIC },
+            { text: "在脑中编织一个很长的故事，编着编着就睡着了", type: TYPE_DRAMA },
+            { text: "脑子里像放幻灯片一样过一些美好的画面", type: TYPE_VISUAL },
+            { text: "觉察身体的哪个部位还紧绷着，然后有意识地松开它", type: TYPE_DANCE }
+        ] },
+        { text: "情绪堆积到不行、需要一个出口时，哪种更像你的方式？", options: [
+            { text: "在纸上用力画圈或线条，纸张被划破也无所谓", type: TYPE_VISUAL },
+            { text: "猛走一段路、跑几步，或者狠狠捶几下枕头", type: TYPE_DANCE },
+            { text: "把心里话全部倒出来，不管是对着空气还是对着信任的人", type: TYPE_DRAMA },
+            { text: "把音响开得震耳欲聋，或者自己用力喊几嗓子", type: TYPE_MUSIC }
+        ] },
+        { text: "参加一个团体活动，你更沉浸在哪类环节里？", options: [
+            { text: "角色扮演类的破冰，比如用不同身份完成任务", type: TYPE_DRAMA },
+            { text: "大家各自做着手里的事，偶尔抬头看看别人的", type: TYPE_VISUAL },
+            { text: "一起唱歌或合作完成一段节奏，不用太多语言", type: TYPE_MUSIC },
+            { text: "有肢体互动的游戏，比如一起传递动作", type: TYPE_DANCE }
+        ] },
+        { text: "你跟朋友吐槽完一件烦心事，你最希望对方怎么接话？", options: [
+            { text: "“你刚才说的时候，语气让我觉得......”", type: TYPE_MUSIC },
+            { text: "什么也没说，但把椅子拉近了一点，或者拍了拍你", type: TYPE_DANCE },
+            { text: "“听你说完，我脑子里都有画面了......”", type: TYPE_VISUAL },
+            { text: "“我之前也有过类似的经历，那时候我......”", type: TYPE_DRAMA }
+        ] },
+        { text: "和一个人初识时，哪种方式更容易让你觉得'我们挺合拍'？", options: [
+            { text: "对方能接住你的梗，一来一回像在对戏", type: TYPE_DRAMA },
+            { text: "走着路时自然地步伐一致，或者动作节奏莫名同步", type: TYPE_DANCE },
+            { text: "无意间聊到喜欢同一类风格的东西，比如电影的海报或书的封面", type: TYPE_VISUAL },
+            { text: "对方分享了一首歌，恰好是你最近也在听的", type: TYPE_MUSIC }
+        ] },
+        { text: "当你心情很乱，需要有人拉你一把时，你最希望对方怎么做？", options: [
+            { text: "给你放首歌，或者轻轻哼一段你熟悉的旋律", type: TYPE_MUSIC },
+            { text: "带你出门走一圈，边走边聊或者干脆不用说话", type: TYPE_DANCE },
+            { text: "递给你一个本子或者陪你拼点东西，手上有事做就行", type: TYPE_VISUAL },
+            { text: "用'假如你是......'帮你暂时跳出自己的视角看一看", type: TYPE_DRAMA }
+        ] },
+        { text: "刷手机时，你更容易被哪类内容吸引，不知不觉看很久？", options: [
+            { text: "看舞蹈片段、运动教学或有人教怎么放松肩颈", type: TYPE_DANCE },
+            { text: "被一段有情节的短视频或别人的故事讲述抓住", type: TYPE_DRAMA },
+            { text: "点开一段音乐现场、翻唱或乐器演奏视频", type: TYPE_MUSIC },
+            { text: "翻看好看的摄影、插画、穿搭或家居布置", type: TYPE_VISUAL }
+        ] },
+        { text: "下面哪种情况，一旦出现，你就隐隐觉得自己状态不太对了？", options: [
+            { text: "脑子里控制不住地反复回放某段对话或某个场景", type: TYPE_DRAMA },
+            { text: "耳朵里没声音觉得空，有声音了又觉得烦", type: TYPE_MUSIC },
+            { text: "肩膀硬得像顶着块石头，或者睡醒了还是累", type: TYPE_DANCE },
+            { text: "懒得拍照也懒得搭配，看周围东西都觉得不太顺眼", type: TYPE_VISUAL }
+        ] },
+        { text: "如果朋友状态不好，你更可能带ta做什么？", options: [
+            { text: "约ta一起散散步，或者做一些轻松的身体活动", type: TYPE_DANCE },
+            { text: "去逛逛美术馆或有意思的小店，边走边看", type: TYPE_VISUAL },
+            { text: "分享一个自己很喜欢的歌单，一起安静听", type: TYPE_MUSIC },
+            { text: "聊着聊着开始用'假如你是一个......'来帮ta换个角度看", type: TYPE_DRAMA }
+        ] },
+        { text: "做完一件事让你觉得'哎，这趟没白来'，更可能是？", options: [
+            { text: "身体终于松快了一点，肩颈不那么硬了", type: TYPE_DANCE },
+            { text: "脑子突然转过一个弯，对某件事有了一个新的理解角度", type: TYPE_DRAMA },
+            { text: "拍到了一张氛围对味的照片，或者弄好了房间某个角落", type: TYPE_VISUAL },
+            { text: "意外听到一首很对的歌，马上加入了自己的播放列表", type: TYPE_MUSIC }
+        ] },
+        { text: "有一件压了很久的事，你一直没跟人说。某天它又冒出来时，你第一个下意识的反应更像？", options: [
+            { text: "在心里把它安到一个虚构人物身上，好像它在替自己承担", type: TYPE_DRAMA },
+            { text: "打开音乐软件，让一首歌替自己把那种感觉宣泄出来", type: TYPE_MUSIC },
+            { text: "察觉到这件事好像一直堵在胸口或喉咙，想用深呼吸把它推开", type: TYPE_DANCE },
+            { text: "在纸上用某个只有自己懂的抽象符号把它圈住", type: TYPE_VISUAL }
+        ] },
+        { text: "有人突然问你'最近怎么样'，但你不想说太多。你心里最先跳出的回应方式是？", options: [
+            { text: "脑子里立刻蹦出一两句歌词或一段旋律", type: TYPE_MUSIC },
+            { text: "手机相册里最近的一张照片，就是我的近况", type: TYPE_VISUAL },
+            { text: "想起一个比喻，'就像......'，但没说出口", type: TYPE_DRAMA },
+            { text: "不自觉做了一个耸肩、摊手或叹气的表情和姿势", type: TYPE_DANCE }
+        ] },
+        { text: "回想一下你做过的重要决定，你更偏向靠什么来判断？", options: [
+            { text: "心里演了一遍不同选择可能发生的故事，然后才决定", type: TYPE_DRAMA },
+            { text: "身体会不会紧绷或松弛，用那个来判断对不对劲", type: TYPE_DANCE },
+            { text: "脑子里冒出某个画面或场景，觉得'就是这种感觉'", type: TYPE_VISUAL },
+            { text: "凭某种说不清的直觉，像是心里有个声音在响", type: TYPE_MUSIC }
+        ] },
+        { text: "经历一段难熬的日子后，你感觉自己真正'缓过来了'的标志通常是？", options: [
+            { text: "身体突然觉得很轻，想出门走走或者大口吸几口新鲜空气", type: TYPE_DANCE },
+            { text: "能把那段时间当故事讲出来了，而且觉得它已经翻篇", type: TYPE_DRAMA },
+            { text: "重新开始留意到路边的小细节，比如光影或花朵", type: TYPE_VISUAL },
+            { text: "有一天无意识地哼起了歌，而且是轻快的那种", type: TYPE_MUSIC }
+        ] },
+        { text: "日常生活中，你更容易被哪种东西吸引注意？", options: [
+            { text: "别人走路的姿态，或者自己走路时鞋底与地面的触感", type: TYPE_DANCE },
+            { text: "飘过来的一段钢琴声、隔壁店铺放的歌", type: TYPE_MUSIC },
+            { text: "街边好看的海报、橱窗陈列、或是落日的光线", type: TYPE_VISUAL },
+            { text: "听到路人对话的一两句，脑中自动补全剧情", type: TYPE_DRAMA }
+        ] },
+        { text: "你比较乐意听到别人用哪个词形容你？", options: [
+            { text: "有活力、舒展自在、接地气", type: TYPE_DANCE },
+            { text: "有乐感、善于倾听、情绪敏锐", type: TYPE_MUSIC },
+            { text: "有趣、有感染力、很会讲故事", type: TYPE_DRAMA },
+            { text: "有品味、细腻、能发现美", type: TYPE_VISUAL }
+        ] }
+    ];
+
+    // ---------- 全局状态 ----------
+    let currentView = 'welcome';
+    let userAnswers = new Array(QUESTIONS.length).fill(null);
+    let currentQIndex = 0;
+    let finalScores = { [TYPE_VISUAL]:0, [TYPE_MUSIC]:0, [TYPE_DANCE]:0, [TYPE_DRAMA]:0 };
+
+    const appContainer = document.getElementById('viewContainer');
+
+    function render() {
+        if (currentView === 'welcome') renderWelcome();
+        else if (currentView === 'quiz') renderQuiz();
+        else if (currentView === 'result') renderResult();
+    }
+
+    function renderWelcome() {
+        appContainer.innerHTML = `
+            <div class="content-pane">
+                <div class="logo">🎨 艺术疗愈方式倾向测试</div>
+                <div class="subhead">基于创造性艺术治疗体系 · 24道直觉探索 · 发现你的疗愈语言取向</div>
+                <div class="welcome-icon">🖌️🎵💃🎭</div>
+                <p style="margin-bottom: 1.2rem; line-height: 1.5;">每个人的内心都有一片独特的风景。本测试通过24个贴近日常的情境，评估您在<strong>视觉艺术、音乐、舞蹈/运动、戏剧</strong>四种艺术疗愈路径中的天然倾向。同时，若各维度分数接近，将为您推荐更具整合性的多模态艺术治疗。</p>
+                <div class="feature-list">
+                    🌱 24项温和选择 · 涵盖情绪表达、放松方式、社交互动<br>
+                    🎯 基于专业艺术治疗理论框架 · 结果附详细疗愈机制与方法建议<br>
+                    💡 新增“倾向平衡”识别 · 鼓励整合性探索
+                </div>
+                <button class="btn btn-primary" id="startQuizBtn" style="width:100%;">开始探索 ➤</button>
+            </div>
+        `;
+        document.getElementById('startQuizBtn')?.addEventListener('click', () => {
+            userAnswers.fill(null);
+            currentQIndex = 0;
+            finalScores = { [TYPE_VISUAL]:0, [TYPE_MUSIC]:0, [TYPE_DANCE]:0, [TYPE_DRAMA]:0 };
+            currentView = 'quiz';
+            render();
+        });
+    }
+
+    // 自动跳转逻辑：选择答案后，保存并进行下一题或完成
+    function handleOptionSelect(selectedType) {
+        // 保存当前题的答案
+        userAnswers[currentQIndex] = selectedType;
+
+        // 判断是否是最后一题
+        if (currentQIndex === QUESTIONS.length - 1) {
+            // 直接计算结果并显示结果页
+            computeAndShowResult();
+        } else {
+            // 不是最后一题，自动跳转到下一题
+            currentQIndex++;
+            renderQuiz();
+        }
+    }
+
+    function renderQuiz() {
+        const q = QUESTIONS[currentQIndex];
+        const selectedType = userAnswers[currentQIndex];
+        const progressPercent = (currentQIndex / QUESTIONS.length) * 100;
+
+        let optionsHtml = '';
+        const letters = ['A', 'B', 'C', 'D'];
+        q.options.forEach((opt, idx) => {
+            const isSelected = (selectedType === opt.type);
+            const selectedClass = isSelected ? 'selected-option' : '';
+            optionsHtml += `
+                <div class="option-card ${selectedClass}" data-type="${opt.type}">
+                    <div class="option-marker">${letters[idx]}</div>
+                    <div class="option-text">${escapeHtml(opt.text)}</div>
+                </div>
+            `;
+        });
+
+        const html = `
+            <div class="content-pane">
+                <div class="progress-area">
+                    <div class="progress-bar-bg"><div class="progress-fill" style="width:${progressPercent}%;"></div></div>
+                    <div class="question-counter">第 ${currentQIndex+1} / ${QUESTIONS.length} 题</div>
+                </div>
+                <div class="question-text">${escapeHtml(q.text)}</div>
+                <div class="options-list" id="optionsList">${optionsHtml}</div>
+                <div class="nav-buttons">
+                    <button class="btn btn-outline" id="prevBtn" ${currentQIndex === 0 ? 'disabled style="opacity:0.5"' : ''}>◀ 上一题</button>
+                    <button class="btn btn-primary" id="nextBtn">${currentQIndex === QUESTIONS.length-1 ? '✨ 完成并查看结果' : '下一题 ▶'}</button>
+                </div>
+            </div>
+        `;
+        appContainer.innerHTML = html;
+
+        // 为每个选项绑定点击事件，选中后自动跳转
+        document.querySelectorAll('.option-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const chosenType = card.dataset.type;
+                // 调用自动跳转逻辑
+                handleOptionSelect(chosenType);
+            });
+        });
+
+        // 手动上一题按钮
+        const prevBtn = document.getElementById('prevBtn');
+        if (prevBtn && currentQIndex > 0) {
+            prevBtn.addEventListener('click', () => {
+                if (currentQIndex > 0) {
+                    currentQIndex--;
+                    renderQuiz();
+                }
+            });
+        }
+
+        // 手动下一题按钮（保留，与自动跳转不冲突，但用户如果已经选过，可手动点击）
+        const nextBtn = document.getElementById('nextBtn');
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                if (!userAnswers[currentQIndex]) {
+                    alert("请先选择一个选项～");
+                    return;
+                }
+                if (currentQIndex === QUESTIONS.length - 1) {
+                    computeAndShowResult();
+                } else {
+                    currentQIndex++;
+                    renderQuiz();
+                }
+            });
+        }
+    }
+
+    function computeAndShowResult() {
+        // 确保所有题目都已答（理论上因自动跳转且不允许跳过，应该都已答，但做一次保险）
+        if (userAnswers.some(ans => ans === null)) {
+            alert("尚有未作答的题目，请返回完成。");
+            const firstNull = userAnswers.findIndex(ans => ans === null);
+            if (firstNull !== -1) currentQIndex = firstNull;
+            renderQuiz();
+            return;
+        }
+
+        const counts = { [TYPE_VISUAL]:0, [TYPE_MUSIC]:0, [TYPE_DANCE]:0, [TYPE_DRAMA]:0 };
+        for (let ans of userAnswers) counts[ans]++;
+        finalScores = counts;
+
+        // 寻找最高分
+        const sorted = Object.entries(counts).sort((a,b) => b[1] - a[1]);
+        const highestScore = sorted[0][1];
+        const topTypes = sorted.filter(([_,score]) => score === highestScore).map(([type]) => type);
+        const secondScore = sorted.length > 1 ? sorted[1][1] : 0;
+        const isNearlyBalanced = (highestScore - secondScore) <= 2;  // 差距≤2 视为倾向接近
+        const hasExplicitTie = topTypes.length > 1;
+
+        let primaryType = null;
+        if (!hasExplicitTie && !isNearlyBalanced) {
+            primaryType = topTypes[0];
+        } else {
+            primaryType = null;
+        }
+
+        const primaryDetail = primaryType ? DETAILED_MAP[primaryType] : null;
+        const showIntegrated = (hasExplicitTie || isNearlyBalanced) || (primaryType === null);
+        
+        const total = QUESTIONS.length;
+        const percentVisual = (counts[TYPE_VISUAL]/total)*100;
+        const percentMusic = (counts[TYPE_MUSIC]/total)*100;
+        const percentDance = (counts[TYPE_DANCE]/total)*100;
+        const percentDrama = (counts[TYPE_DRAMA]/total)*100;
+
+        let resultHtml = `
+            <div class="content-pane">
+                <div class="result-type">
+                    <div class="result-badge">✨ 你的艺术疗愈倾向报告 ✨</div>
+                    <div class="healing-icon">${primaryDetail ? primaryDetail.icon : INTEGRATED_DETAIL.icon}</div>
+                    <div class="result-title">${primaryDetail ? primaryDetail.title : INTEGRATED_DETAIL.title}</div>
+                    <div style="font-size:0.85rem; margin-top:6px; color:#8e7a6b;">基于24道直觉探索题</div>
+                </div>
+                <div class="result-desc">
+                    <strong>🌱 你的倾向分布</strong><br>
+                    <div style="margin:10px 0;">
+                        <div style="display:flex; justify-content:space-between; font-size:0.8rem;"><span>🎨视觉 ${counts[TYPE_VISUAL]}</span><span>🎵音乐 ${counts[TYPE_MUSIC]}</span><span>💃舞蹈 ${counts[TYPE_DANCE]}</span><span>🎭戏剧 ${counts[TYPE_DRAMA]}</span></div>
+                        <div style="display:flex; gap:4px; height:8px; margin-top:5px;">
+                            <div style="width:${percentVisual}%; background:#b47c68; border-radius:12px;"></div>
+                            <div style="width:${percentMusic}%; background:#c38e6e; border-radius:12px;"></div>
+                            <div style="width:${percentDance}%; background:#d2a088; border-radius:12px;"></div>
+                            <div style="width:${percentDrama}%; background:#e1b89c; border-radius:12px;"></div>
+                        </div>
+                    </div>
+        `;
+
+        if (primaryDetail && !showIntegrated) {
+            resultHtml += `
+                <strong>🎨 核心倾向解读</strong><br>
+                ${primaryDetail.coreIdea}<br><br>
+                <strong>📖 推荐疗愈方式</strong><br>
+                ${primaryDetail.recommend}<br><br>
+                <strong>🧰 典型方法举例</strong><br>
+                ${primaryDetail.methods}<br><br>
+                <strong>💆 疗愈机制</strong><br>
+                ${primaryDetail.治愈机制}<br>
+            `;
+        } else {
+            resultHtml += `
+                <div class="integrated-note">
+                    🌟 <strong>您的倾向分布非常平衡，整合/多模态艺术治疗尤其适合您！</strong><br>
+                    ${INTEGRATED_DETAIL.coreIdea}<br><br>
+                    <strong>🎯 整合疗愈推荐：</strong> ${INTEGRATED_DETAIL.recommend}<br>
+                    <strong>📚 典型方法：</strong> ${INTEGRATED_DETAIL.methods}<br>
+                    <strong>🧬 疗愈机制：</strong> ${INTEGRATED_DETAIL.治愈机制}
+                </div>
+            `;
+            if (primaryDetail) {
+                resultHtml += `<br><strong>✨ 同时，您的最高分倾向「${primaryDetail.title}」也值得关注：</strong><br>
+                ${primaryDetail.coreIdea}<br>
+                <strong>推荐方式：</strong> ${primaryDetail.recommend}<br>
+                <strong>典型方法：</strong> ${primaryDetail.methods}<br>`;
+            }
+        }
+
+        resultHtml += `
+                <div style="margin-top:1rem; font-size:0.8rem; border-top:1px solid #e0cfc2; padding-top:0.8rem;">
+                    📌 以上建议基于创造性艺术治疗体系（CATs），涵盖视觉艺术、音乐、舞蹈/运动、戏剧及整合性取向。如需专业艺术治疗服务，请咨询具备相关资质的治疗师。
+                </div>
+            </div>
+            <div class="share-buttons">
+                <button class="btn btn-outline" id="restartBtn">🔄 重新测试</button>
+                <button class="btn btn-primary" id="shareBtn">📤 分享结果</button>
+            </div>
+        `;
+        appContainer.innerHTML = resultHtml;
+        document.getElementById('restartBtn')?.addEventListener('click', () => {
+            userAnswers.fill(null);
+            currentQIndex = 0;
+            finalScores = { [TYPE_VISUAL]:0, [TYPE_MUSIC]:0, [TYPE_DANCE]:0, [TYPE_DRAMA]:0 };
+            currentView = 'welcome';
+            render();
+        });
+        document.getElementById('shareBtn')?.addEventListener('click', () => {
+            let shareText = `🎨 我刚完成「艺术疗愈方式倾向测试」，我的倾向分布：视觉${counts[TYPE_VISUAL]}、音乐${counts[TYPE_MUSIC]}、舞蹈${counts[TYPE_DANCE]}、戏剧${counts[TYPE_DRAMA]}。`;
+            if (primaryDetail && !showIntegrated) shareText += ` 主要倾向：${primaryDetail.title}。你也来测测你的疗愈语言吧！`;
+            else shareText += ` 我的倾向较为平衡，适合整合性多模态艺术疗愈。来探索你的内在表达方式～`;
+            if (navigator.share) navigator.share({ title: '艺术疗愈方式倾向测试', text: shareText }).catch(()=>alert("可复制文本分享："+shareText));
+            else navigator.clipboard.writeText(shareText).then(()=>alert("结果已复制，分享给朋友吧✨")).catch(()=>alert(shareText));
+        });
+    }
+
+    function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+
+    render();
+</script>
+</body>
+</html>
